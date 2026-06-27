@@ -1,0 +1,47 @@
+{
+  "window.autoDetectColorScheme": true,
+  "editor.fontSize": 16,
+  "workbench.iconTheme": "file-icons",
+
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+
+  "workbench.editor.empty.hint": "hidden",
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "claudeCode.preferredLocation": "panel",
+
+  // Format on save
+  "editor.formatOnSave": true,
+
+  // Use ESLint for fixes on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+
+  // Validate these languages with ESLint
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Let ESLint format these files
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
+}
