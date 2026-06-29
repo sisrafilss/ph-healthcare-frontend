@@ -1,6 +1,6 @@
 {
   "window.autoDetectColorScheme": true,
-  "editor.fontSize": 16,
+  "editor.fontSize": 20,
   "workbench.iconTheme": "file-icons",
 
   "github.copilot.enable": {
