@@ -1,11 +1,5 @@
-import RegisterForm from "@/components/register-form";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import RegisterForm from '@/components/register-form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const RegisterPage = () => {
   return (
@@ -15,9 +9,7 @@ const RegisterPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>Create an account</CardTitle>
-              <CardDescription>
-                Enter your information below to create your account
-              </CardDescription>
+              <CardDescription>Enter your information below to create your account</CardDescription>
             </CardHeader>
             <CardContent>
               <RegisterForm />

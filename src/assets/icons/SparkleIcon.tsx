@@ -1,13 +1,8 @@
-import svgPaths from "@/assets/svg/svg";
+import svgPaths from '@/assets/svg/svg';
 export function SparkleIcon() {
   return (
     <div className="size-[15.994px]">
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 16 16"
-      >
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
         <g clipPath="url(#clip0_1_26)">
           <path
             d={svgPaths.p18804580}
@@ -58,12 +53,7 @@ export function SparkleIcon() {
 export function LargeSparkleIcon() {
   return (
     <div className="size-[31.989px]">
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 32 32"
-      >
+      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
         <g>
           <path
             d={svgPaths.p2511de00}

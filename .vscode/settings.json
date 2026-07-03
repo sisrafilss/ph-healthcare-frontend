@@ -1,6 +1,6 @@
 {
   "window.autoDetectColorScheme": true,
-  "editor.fontSize": 20,
+  "editor.fontSize": 16,
   "workbench.iconTheme": "file-icons",
 
   "github.copilot.enable": {
@@ -14,7 +14,7 @@
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "claudeCode.preferredLocation": "panel",
 
-  // Format on save
+  // Format on save using Prettier
   "editor.formatOnSave": true,
 
   // Use ESLint for fixes on save
@@ -33,15 +33,15 @@
 
   // Let ESLint format these files
   "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

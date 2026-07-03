@@ -1,59 +1,56 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Calendar, Search, Star } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Calendar, Search, Star } from 'lucide-react';
 
-import { LargeSparkleIcon, SparkleIcon } from "@/assets/icons/SparkleIcon";
-import { HeroProps } from "@/types/heroProps";
-
-
+import { LargeSparkleIcon, SparkleIcon } from '@/assets/icons/SparkleIcon';
+import { HeroProps } from '@/types/heroProps';
 
 export function Hero({
   badge = {
-    text: "AI-Powered Healthcare",
+    text: 'AI-Powered Healthcare',
   },
   heading = {
-    line1: "Find Your Perfect",
-    line2: "Doctor with AI",
+    line1: 'Find Your Perfect',
+    line2: 'Doctor with AI',
   },
   description = [
-    "Our advanced AI technology analyzes your symptoms, medical",
-    "history, and preferences to match you with the best-fit doctors",
-    "in seconds.",
+    'Our advanced AI technology analyzes your symptoms, medical',
+    'history, and preferences to match you with the best-fit doctors',
+    'in seconds.',
   ],
   buttons = {
     primary: {
-      text: "Find Your Doctor",
+      text: 'Find Your Doctor',
     },
     secondary: {
-      text: "Book Appointment",
+      text: 'Book Appointment',
     },
   },
   stats = [
-    { value: "50K+", label: "Patients Served" },
-    { value: "1000+", label: "Expert Doctors" },
+    { value: '50K+', label: 'Patients Served' },
+    { value: '1000+', label: 'Expert Doctors' },
     {
-      value: "4.9",
-      label: "Patient Rating",
+      value: '4.9',
+      label: 'Patient Rating',
       icon: <Star className="size-6 fill-yellow-400 stroke-yellow-400" />,
     },
   ],
   formCard = {
-    title: "AI Doctor Finder",
-    symptomLabel: "What are your symptoms?",
-    symptomPlaceholder: "e.g., headache, fever, cough",
-    specialtyLabel: "Preferred specialty",
+    title: 'AI Doctor Finder',
+    symptomLabel: 'What are your symptoms?',
+    symptomPlaceholder: 'e.g., headache, fever, cough',
+    specialtyLabel: 'Preferred specialty',
     specialtyOptions: [
-      "General Physician",
-      "Cardiologist",
-      "Dermatologist",
-      "Pediatrician",
-      "Orthopedic",
+      'General Physician',
+      'Cardiologist',
+      'Dermatologist',
+      'Pediatrician',
+      'Orthopedic',
     ],
-    defaultSpecialty: "General Physician",
-    submitText: "Get AI Recommendations",
-    footerText:
-      "✨ Powered by advanced AI algorithms for accurate doctor matching",
+    defaultSpecialty: 'General Physician',
+    submitText: 'Get AI Recommendations',
+    footerText: '✨ Powered by advanced AI algorithms for accurate doctor matching',
   },
 }: HeroProps) {
   //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,17 +64,16 @@ export function Hero({
   //   };
 
   return (
-    <div className="w-full relative">
+    <div className="relative w-full">
       {/* Radial Gradient Background from Bottom */}
       <div
-        className="absolute inset-0 z-0 "
+        className="absolute inset-0 z-0"
         style={{
-          background:
-            "radial-gradient(125% 125% at 50% 90%, #fff 30%, #155DFC 100%)",
+          background: 'radial-gradient(125% 125% at 50% 90%, #fff 30%, #155DFC 100%)',
         }}
       />
       {/* Content Container */}
-      <div className="w-full px-4 py-8 md:px-8 lg:px-16 relative">
+      <div className="relative w-full px-4 py-8 md:px-8 lg:px-16">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Left Column - Hero Content */}
@@ -85,9 +81,7 @@ export function Hero({
               {/* Badge */}
               <div className="inline-flex items-center gap-3 self-start rounded-full bg-white px-4 py-2">
                 <SparkleIcon />
-                <span className="text-[11.9px] font-medium text-blue-700">
-                  {badge.text}
-                </span>
+                <span className="text-[11.9px] font-medium text-blue-700">{badge.text}</span>
               </div>
 
               {/* Heading */}
@@ -134,9 +128,7 @@ export function Hero({
                       <p className="text-[25.5px] leading-9">{stat.value}</p>
                       {stat.icon}
                     </div>
-                    <p className="text-[13.6px] leading-6 text-gray-600">
-                      {stat.label}
-                    </p>
+                    <p className="text-[13.6px] leading-6 text-gray-600">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -155,10 +147,7 @@ export function Hero({
                 <form className="space-y-6">
                   {/* Symptoms Input */}
                   <div className="space-y-2">
-                    <Label
-                      htmlFor="symptoms"
-                      className="text-[11.9px] text-gray-700"
-                    >
+                    <Label htmlFor="symptoms" className="text-[11.9px] text-gray-700">
                       {formCard.symptomLabel}
                     </Label>
                     <Input
