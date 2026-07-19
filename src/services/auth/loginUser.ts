@@ -1,10 +1,15 @@
 'use server';
 
+import { getDefaultDashboardRoute, isValidRedirectForRole } from '@/proxy';
 import { parseCookie } from 'cookie';
+import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import z from 'zod';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+export type UserRole = 'ADMIN' | 'DOCTOR' | 'PATIENT';
 
 const loginValidationZodSchema = z.object({
   email: z.email({ error: 'Email is required' }),
@@ -22,6 +27,7 @@ const loginValidationZodSchema = z.object({
 
 export const loginUser = async (_currentState: any, formData: any): Promise<any> => {
   try {
+    const redirectTo = formData.get('redirect') || null;
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
@@ -87,11 +93,38 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
       sameSite: refreshTokenObject['SameSite'] || 'none',
     });
 
+    const verifiedToken: JwtPayload | string = jwt.verify(
+      accessTokenObject.accessToken,
+      process.env.JWT_ACCESS_TOKEN_SECRET as Secret
+    );
+
+    if (typeof verifiedToken === 'string') {
+      throw new Error('Invalid token');
+    }
+
+    const userRole: UserRole = verifiedToken.role;
+
+    if (redirectTo) {
+      const requestedPath = redirectTo.toString();
+      console.log('REQUESTED PATH', requestedPath, 'USER ROLE', userRole);
+      if (isValidRedirectForRole(requestedPath, userRole)) {
+        console.log('REQUESTED PATH', requestedPath, 'USER ROLE', userRole);
+        redirect(requestedPath);
+      } else {
+        console.log('INSIDE ELSE BLOCK', 'REQUESTED PATH', requestedPath, 'USER ROLE', userRole);
+        redirect(getDefaultDashboardRoute(userRole));
+      }
+    }
+
     const result = await res.json();
 
     return result;
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+    if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+      throw error;
+    }
+    console.log(error);
     return {
       error: 'Login Failed',
     };

@@ -57,6 +57,15 @@ export const getDefaultDashboardRoute = (role: UserRole): string => {
   return '/';
 };
 
+export const isValidRedirectForRole = (redirectPath: string, role: UserRole): boolean => {
+  const routeOwner = getRouteOwner(redirectPath);
+
+  if (routeOwner === null || routeOwner === 'COMMON') return true;
+  if (routeOwner === role) return true;
+
+  return false;
+};
+
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
   const cookieStore = await cookies();
@@ -97,9 +106,6 @@ export async function proxy(request: NextRequest) {
 
   // Rule 2 : User is trying to access open public route
   if (routeOwner === null) return NextResponse.next();
-
-  console.log('ROUTE OWNER', routeOwner);
-  console.log('USER ROLE', userRole);
 
   // Rule 1 & 2 for open public routes and auth routes
   if (!accessToken) {
