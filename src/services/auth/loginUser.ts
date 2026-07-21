@@ -1,15 +1,13 @@
 'use server';
 
-import { getDefaultDashboardRoute, isValidRedirectForRole } from '@/proxy';
+import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from '@/lib/auth-utils';
 import { parseCookie } from 'cookie';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
+import { setCookie } from './tokenHandler';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-export type UserRole = 'ADMIN' | 'DOCTOR' | 'PATIENT';
 
 const loginValidationZodSchema = z.object({
   email: z.email({ error: 'Email is required' }),
@@ -77,9 +75,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
       throw new Error('No Set-Cookie header found');
     }
 
-    const cookieStore = await cookies();
-
-    cookieStore.set('accessToken', accessTokenObject.accessToken, {
+    setCookie('accessToken', accessTokenObject.accessToken, {
       secure: true,
       httpOnly: true,
       maxAge: parseInt(accessTokenObject['Max-Age']) || 60 * 60 * 1000,
@@ -87,7 +83,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
       sameSite: accessTokenObject['SameSite'] || 'none',
     });
 
-    cookieStore.set('refreshToken', refreshTokenObject.refreshToken, {
+    setCookie('refreshToken', refreshTokenObject.refreshToken, {
       secure: true,
       httpOnly: true,
       maxAge: parseInt(refreshTokenObject['Max-Age']) || 60 * 60 * 1000 * 24 * 90,
