@@ -1,3 +1,5 @@
+import LoginSuccessToast from '@/components/shared/LoginSuccessToast';
+import LogoutSuccessToast from '@/components/shared/LogoutSuccess';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
@@ -41,6 +43,8 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         {children}
         <Toaster richColors />
+        <LogoutSuccessToast />
+        <LoginSuccessToast />
       </body>
     </html>
   );
