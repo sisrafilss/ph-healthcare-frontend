@@ -1,7 +1,5 @@
-import DashboardNavbarContent from './DashboardNavbarContent';
-
 const DashboardNavbar = () => {
-  return <DashboardNavbarContent />;
+  return <div>Dashboard Navbar</div>;
 };
 
 export default DashboardNavbar;
