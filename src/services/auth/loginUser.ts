@@ -1,6 +1,8 @@
 'use server';
 
+import { serverFetch } from '@/lib/auth-fetch';
 import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from '@/lib/auth-utils';
+import { zodValidator } from '@/lib/zodValidator';
 import { parseCookie } from 'cookie';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { redirect } from 'next/navigation';
@@ -29,31 +31,18 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
-    const loginData = {
+    const payload = {
       email: formData.get('email'),
       password: formData.get('password'),
     };
 
-    const validatedFields = loginValidationZodSchema.safeParse(loginData);
+    if (zodValidator(payload, loginValidationZodSchema).success === false)
+      return zodValidator(payload, loginValidationZodSchema);
 
-    if (!validatedFields.success) {
-      return {
-        success: false,
-        errors: validatedFields.error.issues.map((err) => {
-          return {
-            field: err.path[0],
-            message: err.message,
-          };
-        }),
-      };
-    }
+    const validatedPayload = zodValidator(payload, loginValidationZodSchema).data;
 
-    const res = await fetch('http://localhost:5000/api/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(loginData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const res = await serverFetch.post('http://localhost:5000/api/v1/auth/login', {
+      body: JSON.stringify(validatedPayload),
     });
 
     const result = await res.json();
