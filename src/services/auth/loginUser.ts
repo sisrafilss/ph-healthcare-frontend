@@ -1,29 +1,15 @@
 'use server';
 
-import { serverFetch } from '@/lib/auth-fetch';
 import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from '@/lib/auth-utils';
+import { serverFetch } from '@/lib/server-fetch';
 import { zodValidator } from '@/lib/zodValidator';
+import { loginValidationZodSchema } from '@/zod/auth.validation';
 import { parseCookie } from 'cookie';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { redirect } from 'next/navigation';
-import z from 'zod';
 import { setCookie } from './tokenHandler';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-const loginValidationZodSchema = z.object({
-  email: z.email({ error: 'Email is required' }),
-  password: z
-    .string({
-      error: 'Password is required',
-    })
-    .min(6, {
-      error: 'Password is required and must be at least 6 characters long',
-    })
-    .max(100, {
-      error: 'Password must be at most 100 characters long',
-    }),
-});
 
 export const loginUser = async (_currentState: any, formData: any): Promise<any> => {
   try {
@@ -41,8 +27,11 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
 
     const validatedPayload = zodValidator(payload, loginValidationZodSchema).data;
 
-    const res = await serverFetch.post('http://localhost:5000/api/v1/auth/login', {
+    const res = await serverFetch.post('/auth/login', {
       body: JSON.stringify(validatedPayload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     const result = await res.json();

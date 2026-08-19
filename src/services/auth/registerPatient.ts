@@ -1,31 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
-import { serverFetch } from '@/lib/auth-fetch';
+import { serverFetch } from '@/lib/server-fetch';
 import { zodValidator } from '@/lib/zodValidator';
-import z from 'zod';
+import { registerValidationZodSchema } from '@/zod/auth.validation';
 import { loginUser } from './loginUser';
-
-const registerValidationZodSchema = z
-  .object({
-    name: z
-      .string('Name is required')
-      .min(2, { error: 'Name should be atleast 2 characters long' }),
-    address: z.string().optional(),
-    email: z.email('Email is required'),
-    password: z
-      .string()
-      .min(6, 'Password is required and mininum 6 characters long')
-      .max(100, 'Password should be maximum 100 characters long'),
-    confirmPassword: z
-      .string()
-      .min(6, 'Confirm Password is required and mininum 6 characters long')
-      .max(100, 'Password should be maximum 100 characters long'),
-  })
-  .refine((data: any) => data.password === data.confirmPassword, {
-    error: 'Password do not matched',
-    path: ['confirmPassword'],
-  });
 
 export const registerPatient = async (_currentState: any, formData: any) => {
   try {
@@ -36,20 +15,6 @@ export const registerPatient = async (_currentState: any, formData: any) => {
       password: formData.get('password'),
       confirmPassword: formData.get('confirmPassword'),
     };
-
-    // const validationFields = registerValidationZodSchema.safeParse(validationData);
-
-    // if (validationFields.error) {
-    //   return {
-    //     success: false,
-    //     errors: validationFields.error.issues.map((err) => {
-    //       return {
-    //         field: err.path[0],
-    //         message: err.message,
-    //       };
-    //     }),
-    //   };
-    // }
 
     if (zodValidator(payload, registerValidationZodSchema).success === false)
       return zodValidator(payload, registerValidationZodSchema);
@@ -68,7 +33,7 @@ export const registerPatient = async (_currentState: any, formData: any) => {
     const newFormData = new FormData();
     newFormData.append('data', JSON.stringify(registerData));
 
-    const res = await serverFetch.post('http://localhost:5000/api/v1/user/create-patient', {
+    const res = await serverFetch.post('/user/create-patient', {
       body: newFormData,
     });
 

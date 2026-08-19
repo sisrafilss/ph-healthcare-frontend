@@ -1,4 +1,4 @@
-import { serverFetch } from '@/lib/auth-fetch';
+import { serverFetch } from '@/lib/server-fetch';
 import { zodValidator } from '@/lib/zodValidator';
 import { createSpecialtiesZodSchema } from '@/zod/specialties.validation';
 
