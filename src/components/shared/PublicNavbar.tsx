@@ -1,4 +1,7 @@
+import { getDefaultDashboardRoute } from '@/lib/auth-utils';
+import { getUserInfo } from '@/services/auth/getUserInfo';
 import { getCookie } from '@/services/auth/tokenHandler';
+import { UserInfo } from '@/types/user.interface';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -7,6 +10,7 @@ import LogoutButton from './LogoutButton';
 
 const PublicNavbar = async () => {
   const accessToken = await getCookie('accessToken');
+  const userInfo = (await getUserInfo()) as UserInfo;
 
   const navItems = [
     { href: '#', label: 'Consultation' },
@@ -14,6 +18,8 @@ const PublicNavbar = async () => {
     { href: '#', label: 'Medicine' },
     { href: '#', label: 'Diagnostics' },
     { href: '#', label: 'NGOs' },
+
+    { href: userInfo ? getDefaultDashboardRoute(userInfo.role) : '', label: 'Dashboard' },
   ];
   return (
     <header className="bg-background/95 dark:bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur">

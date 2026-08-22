@@ -1,3 +1,5 @@
+'use server';
+
 import { serverFetch } from '@/lib/server-fetch';
 import { zodValidator } from '@/lib/zodValidator';
 import { createSpecialtiesZodSchema } from '@/zod/specialties.validation';
@@ -46,10 +48,11 @@ export const getSpecialties = async () => {
   }
 };
 
-export const deleteSpecialties = async (id: string) => {
+export const deleteSpecialty = async (id: string) => {
   try {
-    const response = await serverFetch.delete('/specialties');
+    const response = await serverFetch.delete(`/specialties/${id}`);
     const result = await response.json();
+    console.log('RESULT', result);
     return result;
   } catch (error: any) {
     console.log(error);
