@@ -5,7 +5,7 @@ import TableSkeleton from '@/components/shared/TableSkeleton';
 import { getSpecialties } from '@/services/admin/specialtiesManagement';
 import { Suspense } from 'react';
 
-const SpecialtiesManagementPage = async () => {
+const AdminSpecialtiesManagementPage = async () => {
   const result = await getSpecialties();
 
   return (
@@ -21,4 +21,4 @@ const SpecialtiesManagementPage = async () => {
   );
 };
 
-export default SpecialtiesManagementPage;
+export default AdminSpecialtiesManagementPage;

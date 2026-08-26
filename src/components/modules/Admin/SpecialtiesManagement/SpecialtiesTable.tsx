@@ -7,7 +7,7 @@ import { ISpecialty } from '@/types/specialties.interface';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
-import { specialtiesColumn } from './specialtiesManagement';
+import { specialtiesColumn } from './specialtiesColumn';
 
 interface ISpecialtiesTableProps {
   specialties: ISpecialty[];
