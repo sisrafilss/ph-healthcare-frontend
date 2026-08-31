@@ -1,3 +1,5 @@
+'use client';
+
 import InputFieldError from '@/components/shared/InputFieldError';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -10,11 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useSpecialtySelection } from '@/hooks/specialtyHooks/useSpecialtySelection';
 import { createDoctor, updateDoctor } from '@/services/admin/doctorManagement';
 import { IDoctor } from '@/types/doctor.interface';
 import { ISpecialty } from '@/types/specialties.interface';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import SpecialtyMultiSelector from './SpecialtyMultiSelector';
 
 interface IDoctorFormDialogProps {
   open: boolean;
@@ -33,13 +37,17 @@ const DoctorFormDialog = ({
 }: IDoctorFormDialogProps) => {
   const isEdit = !!doctor;
 
-  const [selectedSpeciality, setSelectedSpeciality] = useState('');
   const [gender, setGender] = useState<'MALE' | 'FEMALE'>(doctor?.gender || 'MALE');
 
   const [state, formAction, pending] = useActionState(
     isEdit ? updateDoctor.bind(null, doctor.id!) : createDoctor,
     null
   );
+
+  const specialtySelection = useSpecialtySelection({ doctor, isEdit, open });
+  const getSpecialtyTitle = (id: string): string => {
+    return specialities?.find((s) => s.id === id)?.title || 'Unknown';
+  };
 
   useEffect(() => {
     if (state && state?.success) {
@@ -110,45 +118,19 @@ const DoctorFormDialog = ({
               </>
             )}
 
-            <Field>
-              <FieldLabel htmlFor="specialities">Speciality</FieldLabel>
-              <Input
-                id="specialtes"
-                name="specialtes"
-                placeholder="Select a speciality"
-                // defaultValue={isEdit ? doctor?.doctorSpecialties?.[0]?.specialties?.title : ""}
-                defaultValue={selectedSpeciality}
-                type="hidden"
-              />
-              <Select
-                value={
-                  //   isEdit
-                  //     ? doctor?.doctorSpecialties?.[0]?.specialties?.title || ""
-                  //     : selectedSpeciality
-                  selectedSpeciality
-                }
-                onValueChange={setSelectedSpeciality}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a speciality" />
-                </SelectTrigger>
-                <SelectContent>
-                  {specialities && specialities.length > 0 ? (
-                    specialities.map((speciality) => (
-                      <SelectItem key={speciality.id} value={speciality.title}>
-                        {speciality.title}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <SelectItem value="none" disabled>
-                      No specialities available
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-              <p className="mt-1 text-xs text-gray-500">Select a speciality for the doctor</p>
-              <InputFieldError state={state} field="specialities" />
-            </Field>
+            {/* Specialty Selection */}
+            <SpecialtyMultiSelector
+              selectedSpecialtyIds={specialtySelection.selectedSpecialtyIds}
+              removedSpecialtyIds={specialtySelection.removedSpecialtyIds}
+              currentSpecialtyId={specialtySelection.currentSpecialtyId}
+              availableSpecialties={specialtySelection.getAvailableSpecialties(specialities!)}
+              isEdit={isEdit}
+              onCurrentSpecialtyChange={specialtySelection.setCurrentSpecialtyId}
+              onAddSpecialty={specialtySelection.handleAddSpecialty}
+              onRemoveSpecialty={specialtySelection.handleRemoveSpecialty}
+              getSpecialtyTitle={getSpecialtyTitle}
+              getNewSpecialties={specialtySelection.getNewSpecialties}
+            />
 
             <Field>
               <FieldLabel htmlFor="contactNumber">Contact Number</FieldLabel>

@@ -25,13 +25,15 @@ export const useSpecialtySelection = ({
   isEdit,
   open,
 }: UseSpecialtySelectionProps): UseSpecialtySelectionReturn => {
+  console.log('DOCTOR', doctor);
+
   const getInitialSpecialtyIds = () => {
-    if (isEdit && doctor?.doctorSpecialties) {
+    if (isEdit && doctor?.doctorSpecialities) {
       return (
-        doctor?.doctorSpecialties
+        doctor?.doctorSpecialities
           ?.map((ds) => {
             // Try: specialitiesId, specialities.id, or specialties.id
-            return ds?.specialitiesId || null;
+            return ds?.specialtiesId || null;
           })
           ?.filter((id): id is string => !!id) || []
       );
@@ -60,9 +62,9 @@ export const useSpecialtySelection = ({
     setSelectedSpecialtyIds(selectedSpecialtyIds.filter((id) => id !== specialtyId));
 
     // In edit mode, track removed specialties
-    if (isEdit && doctor?.doctorSpecialties) {
-      const wasOriginalSpecialty = doctor?.doctorSpecialties?.some((ds) => {
-        const id = ds?.specialitiesId || null;
+    if (isEdit && doctor?.doctorSpecialities) {
+      const wasOriginalSpecialty = doctor?.doctorSpecialities?.some((ds) => {
+        const id = ds?.specialtiesId || null;
         return id === specialtyId;
       });
       if (wasOriginalSpecialty && !removedSpecialtyIds.includes(specialtyId)) {
@@ -72,12 +74,12 @@ export const useSpecialtySelection = ({
   };
 
   const getNewSpecialties = (): string[] => {
-    if (!isEdit || !doctor?.doctorSpecialties) {
+    if (!isEdit || !doctor?.doctorSpecialities) {
       return selectedSpecialtyIds;
     }
     const originalIds =
-      doctor?.doctorSpecialties
-        ?.map((ds) => ds?.specialitiesId || null)
+      doctor?.doctorSpecialities
+        ?.map((ds) => ds?.specialtiesId || null)
         ?.filter((id): id is string => !!id) || [];
     return selectedSpecialtyIds.filter((id) => !originalIds.includes(id));
   };

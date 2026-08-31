@@ -7,6 +7,21 @@ import { createDoctorZodSchema, updateDoctorZodSchema } from '@/zod/doctor.valid
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export async function createDoctor(_prevState: any, formData: FormData) {
+  // Parse specialties array
+  const specialtiesString = formData.get('specialties') as string;
+  let specialties: string[] = [];
+  if (specialtiesString) {
+    try {
+      specialties = JSON.parse(specialtiesString);
+      if (!Array.isArray(specialties)) specialties = [];
+    } catch {
+      specialties = [];
+    }
+  }
+
+  const experienceValue = formData.get('experience');
+  const appointmentFeeValue = formData.get('appointmentFee');
+
   try {
     const payload: IDoctor = {
       name: formData.get('name') as string,
