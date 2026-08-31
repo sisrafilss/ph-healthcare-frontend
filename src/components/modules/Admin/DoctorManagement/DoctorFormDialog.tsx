@@ -113,8 +113,8 @@ const DoctorFormDialog = ({
             <Field>
               <FieldLabel htmlFor="specialities">Speciality</FieldLabel>
               <Input
-                id="specialities"
-                name="specialities"
+                id="specialtes"
+                name="specialtes"
                 placeholder="Select a speciality"
                 // defaultValue={isEdit ? doctor?.doctorSpecialties?.[0]?.specialties?.title : ""}
                 defaultValue={selectedSpeciality}

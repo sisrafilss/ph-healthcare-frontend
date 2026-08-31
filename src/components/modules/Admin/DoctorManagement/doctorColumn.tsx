@@ -18,13 +18,13 @@ export const doctorsColumns: Column<IDoctor>[] = [
     header: 'Specialties',
     accessor: (doctor) => (
       <div className="flex flex-wrap gap-1">
-        {doctor.doctorSpecialties && doctor.doctorSpecialties.length > 0 ? (
-          doctor.doctorSpecialties.map((specialty, index) => (
+        {doctor.doctorSpecialities && doctor.doctorSpecialities.length > 0 ? (
+          doctor.doctorSpecialities.map((specialty, index) => (
             <span
-              key={specialty.specialties?.id || index}
+              key={specialty.specialtes?.id || index}
               className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
             >
-              {specialty.specialties?.title || 'N/A'}
+              {specialty.specialtes?.title || 'N/A'}
             </span>
           ))
         ) : (

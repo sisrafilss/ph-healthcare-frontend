@@ -1,3 +1,5 @@
+'use server';
+
 import { serverFetch } from '@/lib/server-fetch';
 import { zodValidator } from '@/lib/zodValidator';
 import { IDoctor } from '@/types/doctor.interface';
@@ -130,9 +132,8 @@ export async function updateDoctor(id: string, _prevState: any, formData: FormDa
 
 export async function softDeleteDoctor(id: string) {
   try {
-    const response = await serverFetch.delete(`/doctor/soft/${id}`);
+    const response = await serverFetch.delete(`/doctor/${id}`);
     const result = await response.json();
-
     return result;
   } catch (error: any) {
     console.log(error);
