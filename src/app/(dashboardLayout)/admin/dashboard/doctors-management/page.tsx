@@ -24,7 +24,7 @@ const AdminDoctorsManagementPage = async ({
 
   return (
     <div className="space-y-6">
-      <DoctorManagementHeader specialities={specialtiesResult.data} />
+      <DoctorManagementHeader specialities={specialtiesResult?.data || []} />
       <div className="flex space-x-2">
         <SearchFilter paramName="searchTerm" placeholder="Search Doctor..." />
         <SelectFilter
