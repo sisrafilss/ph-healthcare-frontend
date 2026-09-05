@@ -44,11 +44,6 @@ const DoctorFormDialog = ({
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setSelectedFile(file || null);
-  };
-
   const [state, formAction, pending] = useActionState(
     isEdit ? updateDoctor.bind(null, doctor.id!) : createDoctor,
     null
@@ -57,6 +52,22 @@ const DoctorFormDialog = ({
   const specialtySelection = useSpecialtySelection({ doctor, isEdit, open });
   const getSpecialtyTitle = (id: string): string => {
     return specialities?.find((s) => s.id === id)?.title || 'Unknown';
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setSelectedFile(file || null);
+  };
+
+  const handleClose = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    if (selectedFile) {
+      setSelectedFile(null); // Clear preview
+    }
+    formRef.current?.reset(); // Clear form
+    onClose(); // Close dialog
   };
 
   useEffect(() => {
@@ -82,7 +93,7 @@ const DoctorFormDialog = ({
   }, [state, onSuccess, onClose, selectedFile]);
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="flex max-h-[90vh] flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-4">
           <DialogTitle>{isEdit ? 'Edit Doctor' : 'Add New Doctor'}</DialogTitle>

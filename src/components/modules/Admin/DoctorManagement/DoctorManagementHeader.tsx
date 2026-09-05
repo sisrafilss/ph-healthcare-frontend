@@ -24,11 +24,22 @@ const DoctorManagementHeader = ({ doctor, specialities }: DoctorManagementHeader
     });
   };
 
+  const [dialogKey, setDialogKey] = useState(0);
+
+  const handleOpenDialog = () => {
+    setDialogKey((value) => value + 1);
+    setIsDialogOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
   return (
     <>
       <DoctorFormDialog
+        key={dialogKey}
         open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        onClose={handleCloseDialog}
         onSuccess={handleSuccess}
         doctor={doctor}
         specialities={specialities}
@@ -40,7 +51,7 @@ const DoctorManagementHeader = ({ doctor, specialities }: DoctorManagementHeader
         action={{
           label: 'Add Doctor',
           icon: Plus,
-          onClick: () => setIsDialogOpen(true),
+          onClick: handleOpenDialog,
         }}
       />
     </>
